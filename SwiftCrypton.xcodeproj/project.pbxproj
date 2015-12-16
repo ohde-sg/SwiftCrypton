@@ -10,6 +10,10 @@
 		FFE6B26D1C21DE3500C3CFFE /* SwiftCrypton.h in Headers */ = {isa = PBXBuildFile; fileRef = FFE6B26C1C21DE3500C3CFFE /* SwiftCrypton.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FFE6B2741C21DE3500C3CFFE /* SwiftCrypton.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFE6B2691C21DE3500C3CFFE /* SwiftCrypton.framework */; };
 		FFE6B2791C21DE3500C3CFFE /* SwiftCryptonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE6B2781C21DE3500C3CFFE /* SwiftCryptonTests.swift */; };
+		FFE6B2851C21DE8800C3CFFE /* HashAlgo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE6B2831C21DE8800C3CFFE /* HashAlgo.swift */; };
+		FFE6B2861C21DE8800C3CFFE /* HashAlgoProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE6B2841C21DE8800C3CFFE /* HashAlgoProtocol.swift */; };
+		FFE6B2881C21DE9200C3CFFE /* SHA256.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE6B2871C21DE9200C3CFFE /* SHA256.swift */; };
+		FFE6B28A1C21DE9C00C3CFFE /* SwiftCrypton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE6B2891C21DE9C00C3CFFE /* SwiftCrypton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +33,10 @@
 		FFE6B2731C21DE3500C3CFFE /* SwiftCryptonTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftCryptonTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FFE6B2781C21DE3500C3CFFE /* SwiftCryptonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftCryptonTests.swift; sourceTree = "<group>"; };
 		FFE6B27A1C21DE3500C3CFFE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FFE6B2831C21DE8800C3CFFE /* HashAlgo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HashAlgo.swift; sourceTree = "<group>"; };
+		FFE6B2841C21DE8800C3CFFE /* HashAlgoProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HashAlgoProtocol.swift; sourceTree = "<group>"; };
+		FFE6B2871C21DE9200C3CFFE /* SHA256.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SHA256.swift; sourceTree = "<group>"; };
+		FFE6B2891C21DE9C00C3CFFE /* SwiftCrypton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftCrypton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +79,10 @@
 		FFE6B26B1C21DE3500C3CFFE /* SwiftCrypton */ = {
 			isa = PBXGroup;
 			children = (
+				FFE6B2831C21DE8800C3CFFE /* HashAlgo.swift */,
+				FFE6B2871C21DE9200C3CFFE /* SHA256.swift */,
+				FFE6B2841C21DE8800C3CFFE /* HashAlgoProtocol.swift */,
+				FFE6B2891C21DE9C00C3CFFE /* SwiftCrypton.swift */,
 				FFE6B26C1C21DE3500C3CFFE /* SwiftCrypton.h */,
 				FFE6B26E1C21DE3500C3CFFE /* Info.plist */,
 			);
@@ -194,6 +206,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FFE6B2861C21DE8800C3CFFE /* HashAlgoProtocol.swift in Sources */,
+				FFE6B28A1C21DE9C00C3CFFE /* SwiftCrypton.swift in Sources */,
+				FFE6B2851C21DE8800C3CFFE /* HashAlgo.swift in Sources */,
+				FFE6B2881C21DE9200C3CFFE /* SHA256.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -305,6 +321,7 @@
 		FFE6B27E1C21DE3500C3CFFE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -317,12 +334,14 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.yoshiyuki.SwiftCrypton;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		FFE6B27F1C21DE3500C3CFFE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;

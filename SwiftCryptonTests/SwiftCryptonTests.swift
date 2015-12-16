@@ -21,9 +21,14 @@ class SwiftCryptonTests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testInRef() {
+        let str = "abc"
+        let cstr = str.cStringUsingEncoding(NSUTF8StringEncoding)
+        let data = NSData(bytes: cstr!, length: str.utf8.count)
+        
+        let hash = SwiftCrypton(data: data).getSHA256String()
+        print(hash)
+        XCTAssertEqual(hash, "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad")
     }
     
     func testPerformanceExample() {
