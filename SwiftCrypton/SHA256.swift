@@ -39,11 +39,11 @@ class SHA256 : HashAlgo ,HashAlgoProtocol{
     
     func getHashedByteArray(bytes: [UInt8]) -> [UInt8] {
         //パディング処理
-        let baddedArray = getUInt8ArrayWithPadding(bytes)
+        let paddedArray = getUInt8ArrayWithPadding(bytes)
         //ハッシュ処理
         
         //バイト配列から4バイト配列に変換
-        let uintArray = getUInt32Array(baddedArray)
+        let uintArray = getUInt32Array(paddedArray)
         
         var a: UInt32
         var b: UInt32
@@ -54,7 +54,7 @@ class SHA256 : HashAlgo ,HashAlgoProtocol{
         var g: UInt32
         var h: UInt32
         
-        for index in 0..<(baddedArray.count/64) {
+        for index in 0..<(paddedArray.count/64) {
             //indexで指定したメッセージブロックを取得
             let msgBlock = getMsgBlockByIndex(uintArray,index:index)
             //拡張ブロックを作成
@@ -83,7 +83,10 @@ class SHA256 : HashAlgo ,HashAlgoProtocol{
                 c = b
                 b = a
                 a = T1 &+ T2
-                dump_hash(t,dmp: [a,b,c,d,e,f,g,h])
+                
+                #if DEBUG
+                    dump_hash(index,t:t,dmp: [a,b,c,d,e,f,g,h])
+                #endif
             }
             
             h0 = a &+ h0
@@ -101,41 +104,6 @@ class SHA256 : HashAlgo ,HashAlgoProtocol{
         return toUInt8Array(rtnArray)
     }
     
-    /// SHA256パディング処理済みのバイト配列を返す
-    /// - parameter bytes: 入力データのバイト配列
-    /// - returns:UInt8配列
-    private func getUInt8ArrayWithPadding(bytes: [UInt8]) -> [UInt8] {
-        //入力データのビット長を取得
-        let bytesBitCount = UInt64(bytes.count * 8)
-        //バイト配列の末尾に'1'bit(0x80)を追加
-        var rtnBytes = bytes
-        rtnBytes.append(0x80)
-        
-        //ブロック数を算出
-        var blockCount = rtnBytes.count / 64 + 1
-        //最後のブロックが56バイト超えていたらブロックを1つ増やす
-        if (rtnBytes.count % 64) > 56 {
-            blockCount++
-        }
-        //ブロック数いっぱいまで、0x00を埋める
-        for _ in rtnBytes.count ..< (blockCount * 64) {
-            rtnBytes.append(0x00)
-        }
-        
-        //入力データのビット長を64bit(8Byte)で末尾に設定
-        let bitCount = rtnBytes.count
-        rtnBytes[bitCount - 8] = UInt8((bytesBitCount & 0xff00000000000000) >> UInt64(56))
-        rtnBytes[bitCount - 7] = UInt8((bytesBitCount & 0x00ff000000000000) >> UInt64(48))
-        rtnBytes[bitCount - 6] = UInt8((bytesBitCount & 0x0000ff0000000000) >> UInt64(40))
-        rtnBytes[bitCount - 5] = UInt8((bytesBitCount & 0x000000ff00000000) >> UInt64(32))
-        rtnBytes[bitCount - 4] = UInt8((bytesBitCount & 0x00000000ff000000) >> UInt64(24))
-        rtnBytes[bitCount - 3] = UInt8((bytesBitCount & 0x0000000000ff0000) >> UInt64(16))
-        rtnBytes[bitCount - 2] = UInt8((bytesBitCount & 0x000000000000ff00) >> UInt64(8))
-        rtnBytes[bitCount - 1] = UInt8(bytesBitCount & 0x00000000000000ff)
-        
-        return rtnBytes
-    }
-    
     //メッセージブロック(長さ16のUInt32配列)から拡張メッセージブロックを返す
     private func getExtendedMsgBlock(msgBlock: [UInt32]) -> [UInt32] {
         var rtnArray = msgBlock
@@ -143,42 +111,6 @@ class SHA256 : HashAlgo ,HashAlgoProtocol{
             rtnArray.append(sigmaL1(rtnArray[i-2]) &+ rtnArray[i-7] &+ sigmaL0(rtnArray[i-15]) &+ rtnArray[i-16])
         }
         return rtnArray
-    }
-    
-    // UInt32配列からindexで指定されたメッセージブロック(長さ16のUInt32配列。合計64Byte)を返す
-    private func getMsgBlockByIndex(words : [UInt32], index:Int) -> [UInt32] {
-        var rtnArray = [UInt32]()
-        for n in index*16 ..< (index+1)*16 {
-            rtnArray.append(words[n])
-        }
-        return rtnArray
-    }
-    
-    // バイト配列からUInt32配列を返す
-    private func getUInt32Array(bytes: [UInt8]) -> [UInt32] {
-        let length = bytes.count / (word / 8)
-        var rtnArray = [UInt32]()
-        for n in 0..<length {
-            rtnArray.append(getUInt32ByIndex(bytes, n: n))
-        }
-        return rtnArray
-    }
-    
-    private func getUInt32ByIndex(bytes: [UInt8], n: Int) -> UInt32 {
-        let count = word / 8
-        var rtnValue:UInt32 = 0
-        for i in 0 ..< count {
-            rtnValue += UInt32(bytes[count*n+i]) << UInt32(word-8*(i+1))
-        }
-        return rtnValue
-    }
-    
-    private func Ch(x:UInt32, y:UInt32, z:UInt32) -> UInt32 {
-        return (x & y) ^ (~x & z)
-    }
-    
-    private func Maj(x:UInt32, y:UInt32, z:UInt32) -> UInt32 {
-        return (x & y) ^ (x & z) ^ (y & z)
     }
     
     private func sigmaU0(x: UInt32) -> UInt32 {
@@ -195,20 +127,6 @@ class SHA256 : HashAlgo ,HashAlgoProtocol{
     
     private func sigmaL1(x: UInt32) -> UInt32 {
         return ROTR(x,n: 17) ^ ROTR(x, n: 19) ^ SHR(x, n: 10)
-    }
-    
-    //デバッグ確認用メソッド
-    private func dump_hash(t: Int, dmp: [UInt32]){
-        print("t =",t, terminator:" ")
-        print(String(format:"%08X ",dmp[0]), terminator:"")
-        print(String(format:"%08X ",dmp[1]), terminator:"")
-        print(String(format:"%08X ",dmp[2]), terminator:"")
-        print(String(format:"%08X ",dmp[3]), terminator:"")
-        print(String(format:"%08X ",dmp[4]), terminator:"")
-        print(String(format:"%08X ",dmp[5]), terminator:"")
-        print(String(format:"%08X ",dmp[6]), terminator:"")
-        print(String(format:"%08X ",dmp[7]), terminator:"")
-        print("")
     }
 }
 

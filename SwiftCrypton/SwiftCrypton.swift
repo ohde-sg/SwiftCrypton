@@ -11,6 +11,7 @@ import Foundation
 
 public enum HashAlgorithm {
     case SHA256 //SHA-256 Secure Hash Algorithm
+    case SHA1   //SHA-1 Secure Hash Algorithm
 }
 
 public class SwiftCrypton {
@@ -24,13 +25,19 @@ public class SwiftCrypton {
         switch algorithm {
         case .SHA256:
             return getSHA256ByteArray()
+        case .SHA1:
+            return getSHA1ByteArray()
         }
     }
     
     //SHA-256ハッシュ値をバイト配列で返す
-    private func getSHA256ByteArray() -> [UInt8]{
+    private func getSHA256ByteArray() -> [UInt8] {
         //入力データをバイト配列に変換し、SHA-256アルゴリズムでハッシュ化
         return SHA256().getHashedByteArray(data)
+    }
+    
+    private func getSHA1ByteArray() -> [UInt8] {
+        return SHA1().getHashedByteArray(data)
     }
     
     /// initで設定したNSDataのSHA-256ハッシュ値を文字列で返す
@@ -42,4 +49,14 @@ public class SwiftCrypton {
         }
         return sha256Str
     }
+    
+    public func getSHA1String() -> String {
+        var sha1Str : String = ""
+        for item in getSHA1ByteArray() {
+            sha1Str += String(format:"%02x",item)
+        }
+        return sha1Str
+    }
+    
+    
 }
