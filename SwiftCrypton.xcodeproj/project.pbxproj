@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FFABC3C41C23099300576C54 /* SHA1.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFABC3C31C23099300576C54 /* SHA1.swift */; };
 		FFE6B26D1C21DE3500C3CFFE /* SwiftCrypton.h in Headers */ = {isa = PBXBuildFile; fileRef = FFE6B26C1C21DE3500C3CFFE /* SwiftCrypton.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FFE6B2741C21DE3500C3CFFE /* SwiftCrypton.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFE6B2691C21DE3500C3CFFE /* SwiftCrypton.framework */; };
 		FFE6B2791C21DE3500C3CFFE /* SwiftCryptonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE6B2781C21DE3500C3CFFE /* SwiftCryptonTests.swift */; };
@@ -27,6 +28,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FFABC3C31C23099300576C54 /* SHA1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SHA1.swift; sourceTree = "<group>"; };
 		FFE6B2691C21DE3500C3CFFE /* SwiftCrypton.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftCrypton.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FFE6B26C1C21DE3500C3CFFE /* SwiftCrypton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwiftCrypton.h; sourceTree = "<group>"; };
 		FFE6B26E1C21DE3500C3CFFE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -79,12 +81,13 @@
 		FFE6B26B1C21DE3500C3CFFE /* SwiftCrypton */ = {
 			isa = PBXGroup;
 			children = (
-				FFE6B2831C21DE8800C3CFFE /* HashAlgo.swift */,
-				FFE6B2871C21DE9200C3CFFE /* SHA256.swift */,
-				FFE6B2841C21DE8800C3CFFE /* HashAlgoProtocol.swift */,
-				FFE6B2891C21DE9C00C3CFFE /* SwiftCrypton.swift */,
 				FFE6B26C1C21DE3500C3CFFE /* SwiftCrypton.h */,
 				FFE6B26E1C21DE3500C3CFFE /* Info.plist */,
+				FFE6B2831C21DE8800C3CFFE /* HashAlgo.swift */,
+				FFE6B2841C21DE8800C3CFFE /* HashAlgoProtocol.swift */,
+				FFABC3C31C23099300576C54 /* SHA1.swift */,
+				FFE6B2871C21DE9200C3CFFE /* SHA256.swift */,
+				FFE6B2891C21DE9C00C3CFFE /* SwiftCrypton.swift */,
 			);
 			path = SwiftCrypton;
 			sourceTree = "<group>";
@@ -206,6 +209,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FFABC3C41C23099300576C54 /* SHA1.swift in Sources */,
 				FFE6B2861C21DE8800C3CFFE /* HashAlgoProtocol.swift in Sources */,
 				FFE6B28A1C21DE9C00C3CFFE /* SwiftCrypton.swift in Sources */,
 				FFE6B2851C21DE8800C3CFFE /* HashAlgo.swift in Sources */,
@@ -331,6 +335,7 @@
 				INFOPLIST_FILE = SwiftCrypton/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				"OTHER_SWIFT_FLAGS[arch=*]" = "-D DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yoshiyuki.SwiftCrypton;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -398,6 +403,7 @@
 				FFE6B27F1C21DE3500C3CFFE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		FFE6B2801C21DE3500C3CFFE /* Build configuration list for PBXNativeTarget "SwiftCryptonTests" */ = {
 			isa = XCConfigurationList;
@@ -406,6 +412,7 @@
 				FFE6B2821C21DE3500C3CFFE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
